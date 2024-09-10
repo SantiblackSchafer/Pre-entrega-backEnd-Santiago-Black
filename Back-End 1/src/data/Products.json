@@ -1,0 +1,72 @@
+[
+        {
+        "id": 1,
+        "title": "iphone 14 pro max",
+        "description": "High-end smartphone with advanced features",
+        "code": "PHONE001",
+        "price": 999.99,
+        "status": true,
+        "stock": 50,
+        "category": "Electronics",
+        "thumbnails": [
+            "/images/smartphone-xyz-1.jpg",
+            "/images/smartphone-xyz-2.jpg"
+        ]
+        },
+        {
+        "id": 2,
+        "title": "Macbook Air M2",
+        "description": "Powerful laptop for professionals",
+        "code": "LAPTOP001",
+        "price": 1499.99,
+        "status": true,
+        "stock": 30,
+        "category": "Electronics",
+        "thumbnails": [
+            "/images/laptop-abc-1.jpg",
+            "/images/laptop-abc-2.jpg"
+        ]
+        },
+        {
+        "id": 3,
+        "title": "Apple max pro",
+        "description": "Premium noise-cancelling headphones",
+        "code": "AUDIO001",
+        "price": 299.99,
+        "status": true,
+        "stock": 100,
+        "category": "Audio",
+        "thumbnails": [
+            "/images/headphones-1.jpg",
+            "/images/headphones-2.jpg"
+        ]
+        },
+        {
+        "id": 4,
+        "title": "Apple Watch Serie 8",
+        "description": "Fitness tracker and smartwatch",
+        "code": "WATCH001",
+        "price": 199.99,
+        "status": true,
+        "stock": 75,
+        "category": "Wearables",
+        "thumbnails": [
+            "/images/smartwatch-1.jpg",
+            "/images/smartwatch-2.jpg"
+        ]
+        },
+        {
+        "id": 5,
+        "title": "Apple tv",
+        "description": "65-inch 4K Smart TV",
+        "code": "TV001",
+        "price": 1299.99,
+        "status": true,
+        "stock": 25,
+        "category": "Electronics",
+        "thumbnails": [
+            "/images/4k-tv-1.jpg",
+            "/images/4k-tv-2.jpg"
+        ]
+        }
+    ]

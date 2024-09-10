@@ -1,0 +1,18 @@
+project-root/
+├── src/
+│   ├── routes/
+│   │   ├── products.routes.js
+│   │   └── carts.routes.js
+│   ├── models/
+│   │   ├── ProductManager.js
+│   │   └── CartManager.js
+│   ├── data/
+│   │   ├── products.json
+│   │   └── carts.json
+│   └── app.js
+│   ├── Styles/
+│   │   ├── style.css
+│   ├── images/
+│   └── index.html
+├── package.json
+└── .gitignore
