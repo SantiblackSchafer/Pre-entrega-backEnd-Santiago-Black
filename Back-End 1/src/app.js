@@ -1,15 +1,14 @@
 const express = require('express');
-const productsRouter = require('./routes/products.routes');
-const cartsRouter = require('./routes/carts.routes');
+const exphbs = require('express-handlebars');
+const http = require('http');
+const socketIO = require('socket.io');
+const path = require('path');
+
+const productsRoutes = require('./routes/products.routes');
+const cartsRoutes = require('./routes/carts.routes');
+const viewsRoutes = require('./routes/views.routes');
+const ProductManager = require('./models/ProductManager');
 
 const app = express();
-const PORT = 8080;
-
-app.use(express.json());
-
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter);
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+const server = http.createServer(app);
+const io = socketIO(server);

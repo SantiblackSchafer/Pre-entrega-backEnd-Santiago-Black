@@ -1,0 +1,22 @@
+<section class="hero text-center py-5 bg-light"></section>
+    <h1>Discover the Best Tech Products</h1>
+    <p class="lead">Shop the latest and greatest in electronics, wearables, and more</p>
+    <a href="#products" class="btn btn-primary btn-lg">Shop Now</a>
+</section>
+
+<section id="products" class="container py-5">
+    <h2 class="text-center mb-4">Our Products</h2>
+    <div class="row">
+        {{#each products}}
+            {{> product-card}}
+        {{/each}}
+    </div>
+</section>
+
+<section id="cart" class="container py-5">
+    <h2 class="text-center mb-4">Your Cart</h2>
+    <p class="text-center">Your cart is currently empty.</p>
+    <div class="text-center">
+        <a href="#products" class="btn btn-primary">Continue Shopping</a>
+    </div>
+</section>

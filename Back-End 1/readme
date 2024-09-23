@@ -2,17 +2,24 @@ project-root/
 ├── src/
 │   ├── routes/
 │   │   ├── products.routes.js
-│   │   └── carts.routes.js
+│   │   ├── carts.routes.js
+│   │   └── views.routes.js (nuevo)
 │   ├── models/
 │   │   ├── ProductManager.js
 │   │   └── CartManager.js
 │   ├── data/
 │   │   ├── products.json
 │   │   └── carts.json
+│   ├── views/ (nuevo)
+│   │   ├── layouts/
+│   │   │   └── main.handlebars
+│   │   ├── home.handlebars
+│   │   └── realTimeProducts.handlebars
+│   ├── public/ (nuevo)
+│   │   ├── js/
+│   │   │   └── realTimeProducts.js
+│   │   └── css/
+│   │       └── style.css
 │   └── app.js
-│   ├── Styles/
-│   │   ├── style.css
-│   ├── images/
-│   └── index.html
 ├── package.json
 └── .gitignore

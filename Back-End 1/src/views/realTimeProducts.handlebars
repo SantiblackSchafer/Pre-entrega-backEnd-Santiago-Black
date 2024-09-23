@@ -1,0 +1,11 @@
+<section id="real-time-products" class="container py-5"></section>
+    <h2 class="text-center mb-4">Real-time Products</h2>
+    <div id="product-list" class="row">
+        {{#each products}}
+            {{> product-card}}
+        {{/each}}
+    </div>
+</section>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realTimeProducts.js"></script>

@@ -30,14 +30,18 @@ router.get('/:pid', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const { title, description, code, price, stock, category, thumbnails } = req.body;
+        
         if (!title || !description || !code || !price || !stock || !category) {
             return res.status(400).json({ error: 'All fields are required except thumbnails' });
         }
         const newProduct = await productManager.addProduct({ title, description, code, price, stock, category, thumbnails });
+        const io = req.app.get('io');
+        io.emit('updateProducts', await productManager.getProducts());
+        
         res.status(201).json(newProduct);
-    } catch (error) {
+        } catch (error) {
         res.status(500).json({ error: error.message });
-    }
-});
+        }
+    });
 
 module.exports = router;

@@ -1,0 +1,25 @@
+    .hero {
+        background: url('https://source.unsplash.com/1600x900/?technology,shopping') no-repeat center center;
+        background-size: cover;
+        height: 70vh;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .hero h1 {
+        font-size: 4rem;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+    
+    .card-product img {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    footer {
+        background-color: #343a40;
+        color: white;
+        padding: 20px 0;
+    }

@@ -9,8 +9,7 @@
         "stock": 50,
         "category": "Electronics",
         "thumbnails": [
-            "/images/smartphone-xyz-1.jpg",
-            "/images/smartphone-xyz-2.jpg"
+            "/src/images/iphone 14 pro max.jpg"
         ]
         },
         {
@@ -23,8 +22,7 @@
         "stock": 30,
         "category": "Electronics",
         "thumbnails": [
-            "/images/laptop-abc-1.jpg",
-            "/images/laptop-abc-2.jpg"
+            "/src/images/Macbook air.png"
         ]
         },
         {
