@@ -2,46 +2,39 @@ const express = require('express');
 const router = express.Router();
 const ProductManager = require('../models/ProductManager');
 
-const productManager = new ProductManager('products.json');
-
 router.get('/', async (req, res) => {
     try {
-        const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
-        const products = await productManager.getProducts(limit);
-        res.json(products);
+        const { limit = 10, page = 1, sort, query } = req.query;
+        const options = {
+            limit: parseInt(limit),
+            page: parseInt(page),
+            sort: sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : undefined,
+        };
+
+        let filter = {};
+        if (query) {
+            filter = { category: query };
+        }
+
+        const result = await ProductManager.paginate(filter, options);
+
+        const baseUrl = `${req.protocol}://${req.get('host')}${req.baseUrl}`;
+        
+        res.json({
+            status: 'success',
+            payload: result.docs,
+            totalPages: result.totalPages,
+            prevPage: result.prevPage,
+            nextPage: result.nextPage,
+            page: result.page,
+            hasPrevPage: result.hasPrevPage,
+            hasNextPage: result.hasNextPage,
+            prevLink: result.hasPrevPage ? `${baseUrl}?limit=${limit}&page=${result.prevPage}&sort=${sort}&query=${query}` : null,
+            nextLink: result.hasNextPage ? `${baseUrl}?limit=${limit}&page=${result.nextPage}&sort=${sort}&query=${query}` : null,
+        });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ status: 'error', error: error.message });
     }
 });
-
-router.get('/:pid', async (req, res) => {
-    try {
-        const product = await productManager.getProductById(parseInt(req.params.pid));
-        if (product) {
-            res.json(product);
-        } else {
-            res.status(404).json({ error: 'Product not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-router.post('/', async (req, res) => {
-    try {
-        const { title, description, code, price, stock, category, thumbnails } = req.body;
-        
-        if (!title || !description || !code || !price || !stock || !category) {
-            return res.status(400).json({ error: 'All fields are required except thumbnails' });
-        }
-        const newProduct = await productManager.addProduct({ title, description, code, price, stock, category, thumbnails });
-        const io = req.app.get('io');
-        io.emit('updateProducts', await productManager.getProducts());
-        
-        res.status(201).json(newProduct);
-        } catch (error) {
-        res.status(500).json({ error: error.message });
-        }
-    });
 
 module.exports = router;

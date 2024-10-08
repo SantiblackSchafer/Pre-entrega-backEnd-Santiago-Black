@@ -1,43 +1,39 @@
-const fs = require('fs').promises;
-const path = require('path');
+const mongoose = require('mongoose');
+
+const cartSchema = new mongoose.Schema({
+    products: [{
+        product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+        quantity: Number
+    }]
+});
+
+const Cart = mongoose.model('Cart', cartSchema);
 
 class CartManager {
-    constructor(filePath) {
-        this.path = path.join(__dirname, '..', 'data', filePath);
+    static async removeProductFromCart(cartId, productId) {
+        await Cart.updateOne(
+            { _id: cartId },
+            { $pull: { products: { product: productId } } }
+        );
     }
 
-    async getCarts() {
-        return JSON.parse(await fs.readFile(this.path, 'utf-8'));
+    static async updateCart(cartId, products) {
+        await Cart.findByIdAndUpdate(cartId, { products });
     }
 
-    async getCartById(id) {
-        const carts = await this.getCarts();
-        return carts.find(c => c.id === id);
+    static async updateProductQuantity(cartId, productId, quantity) {
+        await Cart.updateOne(
+            { _id: cartId, 'products.product': productId },
+            { $set: { 'products.$.quantity': quantity } }
+        );
     }
 
-    async addCart() {
-        const carts = await this.getCarts();
-        const newId = carts.length > 0 ? Math.max(...carts.map(c => c.id)) + 1 : 1;
-        const newCart = { id: newId, products: [] };
-        carts.push(newCart);
-        await fs.writeFile(this.path, JSON.stringify(carts, null, 2));
-        return newCart;
+    static async clearCart(cartId) {
+        await Cart.findByIdAndUpdate(cartId, { products: [] });
     }
 
-    async addProductToCart(cartId, productId, quantity = 1) {
-        const carts = await this.getCarts();
-        const cartIndex = carts.findIndex(c => c.id === cartId);
-        if (cartIndex === -1) throw new Error('Cart not found');
-
-        const productIndex = carts[cartIndex].products.findIndex(p => p.product === productId);
-        if (productIndex === -1) {
-            carts[cartIndex].products.push({ product: productId, quantity });
-        } else {
-            carts[cartIndex].products[productIndex].quantity += quantity;
-        }
-
-        await fs.writeFile(this.path, JSON.stringify(carts, null, 2));
-        return carts[cartIndex];
+    static async getCartById(cartId) {
+        return Cart.findById(cartId).populate('products.product');
     }
 }
 

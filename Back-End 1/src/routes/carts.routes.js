@@ -2,38 +2,55 @@ const express = require('express');
 const router = express.Router();
 const CartManager = require('../models/CartManager');
 
-const cartManager = new CartManager('carts.json');
-
-router.post('/', async (req, res) => {
+router.delete('/:cid/products/:pid', async (req, res) => {
     try {
-        const newCart = await cartManager.addCart();
-        res.status(201).json(newCart);
+        const { cid, pid } = req.params;
+        await CartManager.removeProductFromCart(cid, pid);
+        res.json({ status: 'success', message: 'Product removed from cart' });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ status: 'error', error: error.message });
+    }
+});
+
+router.put('/:cid', async (req, res) => {
+    try {
+        const { cid } = req.params;
+        const { products } = req.body;
+        await CartManager.updateCart(cid, products);
+        res.json({ status: 'success', message: 'Cart updated' });
+    } catch (error) {
+        res.status(500).json({ status: 'error', error: error.message });
+    }
+});
+
+router.put('/:cid/products/:pid', async (req, res) => {
+    try {
+        const { cid, pid } = req.params;
+        const { quantity } = req.body;
+        await CartManager.updateProductQuantity(cid, pid, quantity);
+        res.json({ status: 'success', message: 'Product quantity updated' });
+    } catch (error) {
+        res.status(500).json({ status: 'error', error: error.message });
+    }
+});
+
+router.delete('/:cid', async (req, res) => {
+    try {
+        const { cid } = req.params;
+        await CartManager.clearCart(cid);
+        res.json({ status: 'success', message: 'Cart cleared' });
+    } catch (error) {
+        res.status(500).json({ status: 'error', error: error.message });
     }
 });
 
 router.get('/:cid', async (req, res) => {
     try {
-        const cart = await cartManager.getCartById(parseInt(req.params.cid));
-        if (cart) {
-            res.json(cart.products);
-        } else {
-            res.status(404).json({ error: 'Cart not found' });
-        }
+        const { cid } = req.params;
+        const cart = await CartManager.getCartById(cid);
+        res.json(cart);
     } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-router.post('/:cid/product/:pid', async (req, res) => {
-    try {
-        const cartId = parseInt(req.params.cid);
-        const productId = parseInt(req.params.pid);
-        const updatedCart = await cartManager.addProductToCart(cartId, productId);
-        res.json(updatedCart);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ status: 'error', error: error.message });
     }
 });
 
